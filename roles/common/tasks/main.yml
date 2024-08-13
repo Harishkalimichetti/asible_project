@@ -1,0 +1,57 @@
+- name: Ensure Standard CA Certificates are installed
+  package:
+    name: ca-certificates
+    state: present
+
+- name: Deploy Custom CA Certificates
+  copy:
+    src: "{{ item }}"
+    dest: /usr/local/share/ca-certificates/
+    mode: 0644
+  with_items:
+    - files/CA1.crt
+    - files/CA2.crt
+    - files/CA3.crt
+
+- name: Update CA certificates
+  command: update-ca-certificates
+
+- name: Create deployment directory
+  file:
+    path: "{{ deployment_folder }}"
+    state: directory
+
+- name: Create virtual environment
+  command: python3 -m venv {{ deployment_folder }}/venv
+
+- name: Install application
+  pip:
+    requirements: "{{ deployment_folder }}/{{ wheel_file }}"
+    virtualenv: "{{ deployment_folder }}/venv"
+
+- name: Create instance folder
+  file:
+    path: "{{ instance_path }}"
+    state: directory
+
+- name: Deploy config.py
+  template:
+    src: config.py.j2
+    dest: "{{ instance_path }}/config.py"
+
+- name: Deploy run.sh script
+  template:
+    src: run.sh.j2
+    dest: "{{ deployment_folder }}/run.sh"
+    mode: 0755
+
+- name: Create systemd service for the application
+  template:
+    src: example.service.j2
+    dest: /etc/systemd/system/example.service
+
+- name: Start and enable the application service
+  systemd:
+    name: example
+    state: started
+    enabled: yes

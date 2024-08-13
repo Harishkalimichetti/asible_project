@@ -1,0 +1,13 @@
+[Unit]
+Description=My Application Service
+After=network.target
+
+[Service]
+User={{ service_user }}
+WorkingDirectory={{ deployment_folder }}
+ExecStart={{ deployment_folder }}/run.sh
+Restart=always
+Environment="PATH={{ deployment_folder }}/venv/bin"
+
+[Install]
+WantedBy=multi-user.target

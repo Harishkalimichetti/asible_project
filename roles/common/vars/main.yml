@@ -1,0 +1,6 @@
+deployment_folder: "/opt/example"
+instance_path: "{{ deployment_folder }}/instance"
+wheel_file: "Example-1.1.2-py3-none-any.whl"
+debug: "True"
+port: "8000"
+service_user: "myappuser"

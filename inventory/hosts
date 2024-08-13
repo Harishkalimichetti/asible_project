@@ -1,0 +1,16 @@
+[webservers]
+web1.example.com
+web2.example.com
+
+[dbservers]
+db1.example.com
+db2.example.com
+
+[staging]
+staging-web.example.com
+staging-db.example.com
+
+[production]
+prod-web1.example.com
+prod-web2.example.com
+prod-db1.example.com
