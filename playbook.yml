@@ -6,5 +6,7 @@
   vars_files:
     - vault/secrets.yml
 
-  roles:
-    - common
+  tasks:
+    - name: Deploy a python application into a virtual environment
+      include_role:
+        name: common

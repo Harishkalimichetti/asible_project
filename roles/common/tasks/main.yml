@@ -13,17 +13,6 @@
     - files/CA2.crt
     - files/CA3.crt
 
-- name: Install community.general
-  command: yum install ca-certificates
-
-#- name: Install CA certificates
-#  community.general.certificates:
-#    path: /etc/ssl/certs/ca-certificates.crt
-#    state: present
-
-#- name: Update CA certificates
-#  command: update-ca-certificates
-
 - name: Update CA certificates
   shell: |
     if command -v update-ca-certificates > /dev/null 2>&1; then
