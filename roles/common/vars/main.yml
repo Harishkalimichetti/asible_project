@@ -4,4 +4,4 @@ wheel_file: "Example-1.1.2-py3-none-any.whl"
 debug: "True"
 port: "8000"
 service_user: "myappuser"
-admin_groups: ['group1', 'group2']
+#admin_groups: ['group1', 'group2']
