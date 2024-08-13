@@ -14,27 +14,15 @@
     - files/CA3.crt
 
 - name: Install community.general
-  command: yum install ca-certificates
+  command: ansible-galaxy collection install community.general
 
-#- name: Install CA certificates
-#  community.general.certificates:
-#    path: /etc/ssl/certs/ca-certificates.crt
-#    state: present
-
-#- name: Update CA certificates
-#  command: update-ca-certificates
+- name: Install CA certificates
+  community.general.certificates:
+    path: /etc/ssl/certs/ca-certificates.crt
+    state: present
 
 - name: Update CA certificates
-  shell: |
-    if command -v update-ca-certificates > /dev/null 2>&1; then
-      update-ca-certificates
-    elif command -v update-ca-trust > /dev/null 2>&1; then
-      update-ca-trust
-    else
-      echo "No known CA update command found."
-      exit 1
-    fi
-  become: yes
+  command: update-ca-certificates
 
 - name: Create deployment directory
   file:
@@ -46,8 +34,8 @@
 
 - name: Install application
   pip:
+    requirements: "{{ deployment_folder }}/{{ wheel_file }}"
     virtualenv: "{{ deployment_folder }}/venv"
-    name: "{{ deployment_folder }}/{{ wheel_file }}"
 
 - name: Create instance folder
   file:
