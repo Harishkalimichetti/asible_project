@@ -43,6 +43,33 @@
     path: "{{ instance_path }}"
     state: directory
 
+- name: Create appuser group
+  group:
+    name: "{{ service_user }}"
+    state: present
+
+- name: Create appuser user
+  user:
+    name: "{{ service_user }}"
+    group: "{{ service_user }}"
+    state: present
+
+- name: Ensure destination directory exists
+  file:
+    path: /opt/example/src
+    state: directory
+    owner: "{{ service_user }}"
+    group: "{{ service_user }}"
+    mode: '0755'
+
+- name: Deploy app.py
+  template:
+    src: app.py.j2
+    dest: /opt/example/src/app.py
+    owner: "{{ service_user }}"
+    group: "{{ service_user }}"
+    mode: '0644'
+
 - name: Deploy config.py
   template:
     src: config.py.j2
