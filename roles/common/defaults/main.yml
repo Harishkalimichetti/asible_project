@@ -1,1 +1,1 @@
-admin_groups: ['group1', 'group2']
+admin_groups: ['Read-only', 'Read-write', 'Super']

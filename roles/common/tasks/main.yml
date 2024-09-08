@@ -56,7 +56,7 @@
 
 - name: Ensure destination directory exists
   file:
-    path: /opt/example/src
+    path: "{{ instance_path }}"
     state: directory
     owner: "{{ service_user }}"
     group: "{{ service_user }}"
@@ -65,7 +65,7 @@
 - name: Deploy app.py
   template:
     src: app.py.j2
-    dest: /opt/example/src/app.py
+    dest: "{{ instance_path }}/app.py"
     owner: "{{ service_user }}"
     group: "{{ service_user }}"
     mode: '0644'
@@ -85,6 +85,9 @@
   template:
     src: example.service.j2
     dest: /etc/systemd/system/example.service
+
+- name: Reload systemd to register the service
+  command: systemctl daemon-reload
 
 - name: Start and enable the application service
   systemd:
